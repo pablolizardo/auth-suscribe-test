@@ -19,3 +19,19 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+form {
+  @apply grid gap-4;
+}
+input,
+.input,
+button,
+.button,
+select,
+textarea {
+  @apply px-4 py-2 rounded bg-gray-500/5 hover:bg-gray-500/10 border border-gray-500/20;
+}
+button,
+.button {
+  @apply bg-gray-500/20 hover:bg-gray-500/10 border-transparent;
+}

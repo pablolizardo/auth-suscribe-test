@@ -1,5 +1,6 @@
 import "@/app/globals.css";
-import Link from "next/link";
+import Nav from "@/components/nav";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -9,19 +10,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className="grid gap-4  p-4">
-          <nav className="flex  gap-4">
-            <Link href="/">Home</Link>
-            <Link href="/client">Client</Link>
-            <Link href="/server">Server</Link>
-            <Link href="/login">login</Link>
-            <Link href="/register">register</Link>
-            <Link href="/protected">protected</Link>
-            <Link href="/profile">profile</Link>
-            <Link href="/logout">logout</Link>
-          </nav>
-          <div className="grid gap-4 ">{children}</div>
-        </main>
+        <SessionProvider>
+          <main className="grid gap-4 p-4">
+            <Nav />
+            <div className="grid gap-4 ">{children}</div>
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );
