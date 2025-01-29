@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "plugins": [
       {
@@ -20,12 +20,17 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-
     "paths": {
-      "@/*": ["./src/*"]
-    },
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+      "@/app/*": ["src/app/*"],
+      "@/components/*": ["src/components/*"],
+      "@/consts/*": ["src/consts/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/i18n/*": ["src/dictionaries/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/svg/*": ["src/svg/*"],
+      "@/data/*": ["src/data/*"]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

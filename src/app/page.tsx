@@ -1,7 +1,14 @@
-export default function Home() {
+import { verifySession } from "src/services/session";
+
+export default async function Home() {
+  const session = await verifySession();
   return (
     <>
-      <h1>/</h1>
+      <p>
+        {session?.user
+          ? `Hola ${session.user.name}`
+          : "Inicia Sesíon o registrate"}
+      </p>
     </>
   );
 }

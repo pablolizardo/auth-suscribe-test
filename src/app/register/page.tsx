@@ -1,10 +1,10 @@
-import { createUser } from "@/services/users";
-import Form from "next/form";
+import { registerUser } from "src/services/users";
+
 export default function Register() {
   return (
     <>
       <h1>Register</h1>
-      <Form action={createUser}>
+      <form action={registerUser}>
         <input type="text" name="name" placeholder="Name" />
         <input type="text" name="email" placeholder="Email" />
         <select name="country">
@@ -23,7 +23,7 @@ export default function Register() {
         </select>
         <input type="password" name="password" placeholder="Password" />
         <button type="submit">Register</button>
-      </Form>
+      </form>
     </>
   );
 }

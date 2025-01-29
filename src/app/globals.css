@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 form {
-  @apply grid gap-4;
+    @apply grid gap-4;
 }
 input,
 .input,
@@ -29,9 +29,12 @@ button,
 .button,
 select,
 textarea {
-  @apply px-4 py-2 rounded bg-gray-500/5 hover:bg-gray-500/10 border border-gray-500/20;
+    @apply px-4 py-2 rounded bg-gray-500/5 hover:bg-gray-500/10 border border-gray-500/20;
 }
 button,
 .button {
-  @apply bg-gray-500/20 hover:bg-gray-500/10 border-transparent;
+    @apply bg-gray-500/20 hover:bg-gray-500/10 border-transparent flex items-center gap-2 justify-center [&>svg]:w-5 [&>svg]:h-5;
+}
+.badge {
+    @apply text-[10px]  px-2 py-1 rounded font-normal inline-flex gap-2 items-center [&>svg]:w-4 [&>svg]:h-4;
 }

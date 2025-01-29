@@ -1,25 +1,19 @@
-import { signIn } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { ButtonPending } from "@/components/button-pending";
+import { UserPlus } from "lucide-react";
+import Link from "next/link";
+import { signIn } from "src/services/auth";
 
-export default async function LoginPage() {
+export default function LoginPage() {
   return (
-    <form
-      action={async (formData: FormData) => {
-        "use server";
-        const success = await signIn("credentials", {
-          email: formData.get("email") as string,
-          password: formData.get("password") as string,
-        });
-        if (success) {
-          redirect("/");
-        } else {
-          redirect("/login?error=Invalid%20credentials");
-        }
-      }}
-    >
-      <input name="email" type="email" required />
-      <input name="password" type="password" required />
-      <button type="submit">Sign in</button>
-    </form>
+    <>
+      <form action={signIn}>
+        <input name="email" type="email" required />
+        <input name="password" type="password" required />
+        <ButtonPending type="submit">Sign in</ButtonPending>
+      </form>
+      <Link href="/register" className="button">
+        Register <UserPlus />
+      </Link>
+    </>
   );
 }
