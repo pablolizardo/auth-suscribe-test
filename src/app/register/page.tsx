@@ -1,8 +1,12 @@
+import { headers } from "next/headers";
 import { registerUser } from "src/services/users";
 
-export default function Register() {
+export default async function Register() {
+  const _cookies = await headers();
+  console.log(_cookies.get("x-country"));
   return (
     <>
+      {_cookies.get("x-country")}
       <h1>Register</h1>
       <form action={registerUser}>
         <input type="text" name="name" placeholder="Name" />
