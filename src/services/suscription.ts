@@ -3,18 +3,19 @@ import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { updateSession } from "./session";
 
-export const suscribeUserAction = async (formData: FormData) => {
+export async function suscribeUserAction(formData: FormData) {
   "use server";
   const userId = formData.get("userId") as string;
-  const user = suscribeUser(userId);
-  return user;
-};
-export const unSuscribeUserAction = async (formData: FormData) => {
+  await suscribeUser(userId);
+  revalidatePath("/profile");
+}
+
+export async function unSuscribeUserAction(formData: FormData) {
   "use server";
   const userId = formData.get("userId") as string;
-  const user = unSuscribeUser(userId);
-  return user;
-};
+  await unSuscribeUser(userId);
+  revalidatePath("/profile");
+}
 
 export const suscribeUser = async (userId: string): Promise<void | User> => {
   "use server";
