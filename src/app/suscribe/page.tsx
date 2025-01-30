@@ -1,7 +1,6 @@
 import { ButtonPending } from "@/components/button-pending";
 import { ButtonTriggerHook } from "@/components/button-trigger-hook";
-import { ArrowUpRight, ExternalLink, X } from "lucide-react";
-import { CreditCard } from "lucide-react";
+import { ArrowUpRight, CreditCard, X } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { verifySession } from "src/services/session";
