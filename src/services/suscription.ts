@@ -12,8 +12,8 @@ export async function suscribeUserAction(formData: FormData) {
 
 export async function unSuscribeUserAction(formData: FormData) {
   "use server";
-  const userId = formData.get("userId") as string;
-  await unSuscribeUser(userId);
+  const email = formData.get("email") as string;
+  await unSuscribeUser(email);
   revalidatePath("/profile");
 }
 
@@ -40,15 +40,15 @@ export const suscribeUser = async (userId: string): Promise<void | User> => {
 };
 
 export const unSuscribeUser = async (
-  userId: string,
+  email: string,
 ): Promise<User | undefined> => {
   "use server";
 
   try {
     let user;
-    if (userId) {
+    if (email) {
       user = await prisma.user.update({
-        where: { id: userId },
+        where: { email },
         data: {
           suscribedAt: null,
         },
