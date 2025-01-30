@@ -1,17 +1,14 @@
 import { ButtonPending } from "@/components/button-pending";
-import { ButtonTriggerHook } from "@/components/button-trigger-hook";
-import { CreditCard, LogOut, X } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOut } from "src/services/auth";
 import { verifySession } from "src/services/session";
-import {
-  suscribeUserAction,
-  unSuscribeUserAction,
-} from "src/services/suscription";
 
 export default async function Server() {
   const session = await verifySession();
   if (!session?.user) {
+    console.log("No session");
     redirect("/login");
   }
   return (
@@ -28,38 +25,10 @@ export default async function Server() {
           <li>No es Premium </li>
         )}
       </ul>
-      {!session.user.suscribedAt ? (
-        <>
-          <ButtonTriggerHook
-            endpoint="http://localhost:3000/api/suscribe"
-            userId={session.user.id}
-          >
-            Suscribe Trigger
-          </ButtonTriggerHook>
-          <form action={suscribeUserAction}>
-            <input type="hidden" name="userId" value={session.user.id} />
-            <ButtonPending type="submit">
-              Pasate a Premium por $5 <CreditCard className="text-amber-500" />
-            </ButtonPending>
-          </form>
-        </>
-      ) : (
-        <>
-          <ButtonTriggerHook
-            endpoint="http://localhost:3000/api/unsuscribe"
-            userId={session.user.id}
-          >
-            Unsuscribe Trigger
-          </ButtonTriggerHook>
-
-          <form action={unSuscribeUserAction}>
-            <input type="hidden" name="userId" value={session.user.id} />
-            <ButtonPending type="submit">
-              Cancelar suscripcion <X />{" "}
-            </ButtonPending>
-          </form>
-        </>
-      )}
+      <Link href="/suscribe" className="button">
+        Administrar suscripcion
+        <Settings />
+      </Link>
       <hr className="opacity-20" />
       <form action={signOut}>
         <ButtonPending type="submit">

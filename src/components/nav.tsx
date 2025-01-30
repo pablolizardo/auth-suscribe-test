@@ -1,6 +1,6 @@
-import { LogIn, User, Home, Check } from "lucide-react";
-import NavLink from "./nav-link";
+import { Check, Home, LogIn, User } from "lucide-react";
 import { verifySession } from "src/services/session";
+import NavLink from "./nav-link";
 
 const Nav = async () => {
   const session = await verifySession();
