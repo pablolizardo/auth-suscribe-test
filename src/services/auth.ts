@@ -5,38 +5,19 @@ import { prisma } from "@/lib/prisma";
 
 export const signIn = async (formData: FormData) => {
   "use server";
-  try {
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    if (!email || !password) {
-      redirect("/login?error=missing-credentials");
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  if (email && password) {
+    const user = await prisma.user.findUnique({ where: { email: email, }, });
+    if (user) {
+      const isAuthenticated = await isPasswordCorrect(password, user.hashedPassword,);
+      if (isAuthenticated) {
+        console.log("logged");
+        await createSession(user);
+        redirect("/");
+      }
     }
-
-    const user = await prisma.user.findUnique({
-      where: {
-        email: email.toString(),
-      },
-    }).catch(() => null);
-
-    if (!user) {
-      redirect("/login?error=invalid-credentials");
-    }
-
-    const isAuthenticated = await isPasswordCorrect(
-      password.toString(),
-      user.hashedPassword
-    ).catch(() => false);
-
-    if (!isAuthenticated) {
-      redirect("/login?error=invalid-credentials");
-    }
-
-    await createSession(user);
-    redirect("/");
-  } catch (error) {
-    console.error("Sign in error:", error);
-    redirect("/login?error=server-error");
+    redirect("/login?error=true");
   }
 };
 
@@ -51,10 +32,7 @@ export const hashPassword = async (pwd: string): Promise<string> => {
   return hashed;
 };
 
-export const isPasswordCorrect = async (
-  pwd: string,
-  hsh: string,
-): Promise<boolean> => {
+export const isPasswordCorrect = async (pwd: string, hsh: string,): Promise<boolean> => {
   const unhashed = await bcrypt.compare(pwd, hsh);
   return unhashed;
 };
