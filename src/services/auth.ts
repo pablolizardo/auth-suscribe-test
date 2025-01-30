@@ -5,26 +5,38 @@ import { prisma } from "@/lib/prisma";
 
 export const signIn = async (formData: FormData) => {
   "use server";
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  if (email && password) {
+  try {
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    if (!email || !password) {
+      redirect("/login?error=missing-credentials");
+    }
+
     const user = await prisma.user.findUnique({
       where: {
-        email: email,
+        email: email.toString(),
       },
-    });
-    if (user) {
-      const isAuthenticated = await isPasswordCorrect(
-        password,
-        user.hashedPassword,
-      );
-      if (isAuthenticated) {
-        console.log("logged");
-        await createSession(user);
-        redirect("/");
-      }
+    }).catch(() => null);
+
+    if (!user) {
+      redirect("/login?error=invalid-credentials");
     }
-    redirect("/login?error=true");
+
+    const isAuthenticated = await isPasswordCorrect(
+      password.toString(),
+      user.hashedPassword
+    ).catch(() => false);
+
+    if (!isAuthenticated) {
+      redirect("/login?error=invalid-credentials");
+    }
+
+    await createSession(user);
+    redirect("/");
+  } catch (error) {
+    console.error("Sign in error:", error);
+    redirect("/login?error=server-error");
   }
 };
 
