@@ -2,6 +2,8 @@ import "server-only";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+import { prisma } from "@/lib/prisma";
 
 const secretkey = new TextEncoder().encode(process.env.AUTH_SECRET);
 
@@ -35,6 +37,22 @@ export async function decrypt(token: string) {
     return null;
   }
 }
+
+export const revalidateSession = async () => {
+  'use server'
+  const session = await verifySession();
+  if (session) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+    if (user) {
+      await updateSession(user);
+      revalidatePath('/profile')
+    }
+  }
+};
 
 export const createSession = async (user: User) => {
   const expires = new Date(Date.now() + cookie.duration);
