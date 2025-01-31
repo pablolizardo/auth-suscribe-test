@@ -18,7 +18,7 @@ import { suscribeUser } from "src/services/suscription";
 export async function POST(req: Request) {
   try {
     const body = await req.json(); // Obtener datos del cuerpo de la petición
-
+    console.log(body, { depth: null });
     if (body.type === 'subscription_preapproval') {
       const preapproval = await new PreApproval(mercadopago).get({ id: body.data.id });
       if (preapproval.status === 'approved' || preapproval.status === 'authorized') {
