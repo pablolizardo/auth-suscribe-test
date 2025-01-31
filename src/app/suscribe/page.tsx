@@ -1,5 +1,5 @@
 import { ButtonPending } from '@/components/button-pending';
-import { ArrowUpRight, CreditCard, X } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, CreditCard, X } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { verifySession } from 'src/services/session';
@@ -15,9 +15,11 @@ const Page = async () => {
   // 	•	LATAM (México, Chile, Colombia, Brasil): Stripe.
   // 	•	Internacional (otros países de LATAM): PayPal en USD.
   return (
-    <div className="grid gap-4 items-center justify-center">
-      Suscribe
-      <div className="flex  gap-2">
+    <div className="grid gap-4 ">
+      <Link href="/profile">
+        <ArrowLeft />
+      </Link>
+      <div className="flex gap-2">
         <Link className="button" href={'/suscribe/mercado-pago'}>
           Mercado Pago <span className="badge bg-sky-900 text-sky-200">Argentina</span> <ArrowUpRight />
         </Link>

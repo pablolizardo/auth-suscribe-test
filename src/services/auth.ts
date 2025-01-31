@@ -14,7 +14,7 @@ export const signIn = async (formData: FormData) => {
       if (isAuthenticated) {
         console.log("logged");
         await createSession(user);
-        redirect("/");
+        redirect("/profile");
       }
     }
     redirect("/login?error=true");

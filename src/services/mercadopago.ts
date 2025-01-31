@@ -6,7 +6,7 @@ export const mercadopago = new MercadoPagoConfig({
 export const createMercadoPagoSuscription = async (email: string, userId: string): Promise<string> => {
     const suscription = await new PreApproval(mercadopago).create({
         body: {
-            back_url: 'https://authtestmp.loca.lt/profile',
+            back_url: 'https://authtestmp.loca.lt/success',
             reason: 'Suscripción mensual',
             auto_recurring: {
                 frequency: 1,

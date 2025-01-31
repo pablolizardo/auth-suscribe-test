@@ -3,7 +3,7 @@ import { LogOut, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { signOut } from 'src/services/auth';
-import { revalidateSession, verifySession } from 'src/services/session';
+import { verifySession } from 'src/services/session';
 
 export default async function Server() {
   const session = await verifySession();
@@ -18,7 +18,7 @@ export default async function Server() {
         <li>{session.user.name}</li>
         <li>{session.user.country}</li>
         <li>{session.user.email}</li>
-        <li>Usuario desde el {session.user.createdAt.toString()}</li>
+        <li>Usuario desde el {session.user.createdAt?.toString()}</li>
         {session.user.suscribedAt ? <li>Es Premium desde {session.user.suscribedAt.toString()}</li> : <li>No es Premium </li>}
       </ul>
       <Link href="/suscribe" className="button">
@@ -26,9 +26,9 @@ export default async function Server() {
         <Settings />
       </Link>
       <hr className="opacity-20" />
-      <form action={revalidateSession}>
-        <button>Revalidate session</button>
-      </form>
+      {/* <form action={revalidateSession}>
+        <ButtonPending type="submit">Revalidate session</ButtonPending>
+      </form> */}
       <hr className="opacity-20" />
 
       <form action={signOut}>
