@@ -1,10 +1,10 @@
+"use server";
 import bcrypt from "bcrypt";
 import { createSession, deleteSession } from "./session";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 export const signIn = async (formData: FormData) => {
-  "use server";
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   if (email && password) {
@@ -22,7 +22,6 @@ export const signIn = async (formData: FormData) => {
 };
 
 export const signOut = async () => {
-  "use server";
   await deleteSession();
   redirect("/");
 };

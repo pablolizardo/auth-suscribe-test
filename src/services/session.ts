@@ -1,3 +1,4 @@
+import 'server-only'
 import { User } from "@prisma/client";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { revalidatePath } from "next/cache";
@@ -12,6 +13,7 @@ const cookie = {
 };
 
 export const createSession = async (user: User) => {
+  'use server';
   const expires = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ user, exp: Math.floor(expires.getTime() / 1000), });
   const cookieStore = await cookies();
@@ -19,12 +21,13 @@ export const createSession = async (user: User) => {
 };
 
 export const revalidateSession = async (user: User) => {
-  "use server";
+  'use server';
   await updateSession(user);
   revalidatePath('/profile')
 };
 
 export const updateSession = async (user: User) => {
+  'use server';
   const expires = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ user, exp: Math.floor(expires.getTime() / 1000), });
   const cookieStore = await cookies();
@@ -32,6 +35,7 @@ export const updateSession = async (user: User) => {
 };
 
 export const verifySession = async (): Promise<{ user: User } | null> => {
+  'use server';
   try {
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get(cookie.name);
@@ -51,6 +55,7 @@ export const verifySession = async (): Promise<{ user: User } | null> => {
 };
 
 export const deleteSession = async () => {
+  'use server';
   const cookieStore = await cookies();
   cookieStore.delete(cookie.name);
 };

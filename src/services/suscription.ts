@@ -1,10 +1,10 @@
+"use server";
 import { prisma } from "@/lib/prisma";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { revalidateSession, updateSession } from "./session";
 
 export async function suscribeUserAction(formData: FormData) {
-  "use server";
   const userId = formData.get("userId") as string;
   const updatedUser = await suscribeUser(userId);
   await revalidateSession(updatedUser as User);
@@ -12,7 +12,6 @@ export async function suscribeUserAction(formData: FormData) {
 }
 
 export async function unSuscribeUserAction(formData: FormData) {
-  "use server";
   const email = formData.get("email") as string;
   const updatedUser = await unSuscribeUser(email);
   await updateSession(updatedUser as User);

@@ -1,7 +1,10 @@
+import 'server-only';
+import { User } from "@prisma/client";
 import { PreApproval } from "mercadopago";
 // import { MercadoPagoResponse } from "mercadopago/utils/mercadopago-respose";
 import { NextResponse } from "next/server";
 import { mercadopago } from "src/services/mercadopago";
+import { updateSession } from "src/services/session";
 import { suscribeUser } from "src/services/suscription";
 
 // type MercadoPagoWebHookResponse = {
@@ -18,12 +21,14 @@ import { suscribeUser } from "src/services/suscription";
 export async function POST(req: Request) {
   try {
     const body = await req.json(); // Obtener datos del cuerpo de la petición
-    console.log(body, { depth: null });
+    console.dir(body, { depth: null });
     if (body.type === 'subscription_preapproval') {
       const preapproval = await new PreApproval(mercadopago).get({ id: body.data.id });
       if (preapproval.status === 'approved' || preapproval.status === 'authorized') {
         const userId = preapproval.external_reference as string;
-        await suscribeUser(userId);
+        const updatedUser = await suscribeUser(userId);
+        console.log('updatedUser', updatedUser);
+        updateSession(updatedUser as User);
       }
     }
 

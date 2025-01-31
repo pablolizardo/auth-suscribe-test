@@ -1,9 +1,9 @@
+"use server";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { hashPassword } from "./auth";
 
 export const registerUser = async (formData: FormData) => {
-  "use server";
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const country = formData.get("country") as string;
